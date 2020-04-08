@@ -20,10 +20,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('auth/login', 'AuthController@login');
 
-Route::group(['middleware' => ['apiJwt']], function () {
-    Route::get('user', 'UserController@index');
-    Route::get('user/{id}', 'UserController@show');
+Route::get('user', 'UserController@index');
+Route::get('user/{id}', 'UserController@show');
 
+Route::group(['middleware' => ['apiJwt']], function () {
+    Route::post('logout', 'AuthController@logout');
+    
     Route::group(['middleware' => ['apiHasRole']], function () {
         Route::post('user', 'UserController@store');
         Route::put('user/{id}', 'UserController@update');
