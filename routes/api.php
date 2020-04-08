@@ -27,7 +27,7 @@ Route::group(['middleware' => ['apiJwt']], function () {
     Route::group(['middleware' => ['apiHasRole']], function () {
         Route::post('user', 'UserController@store');
         Route::put('user/{id}', 'UserController@update');
-        Route::delete('users/{id}', 'UserController@delete');
+        Route::delete('user/{id}', 'UserController@destroy');
     });
 });
 
