@@ -18,9 +18,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+    //     $users = User::all();
 
-        return UserResources::collection($users);
+    //     return UserResources::collection($users);
     }
 
     /**
@@ -31,17 +31,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-       $user = new User;
-       
-       $user->name = $request->input('name');
-       $user->email = $request->input('email');
-       $user->password = Hash::make($request->input('password'));
+    //    $user = new User;
 
-       $user->save();
+    //    $user->name = $request->input('name');
+    //    $user->email = $request->input('email');
+    //    $user->password = Hash::make($request->input('password'));
 
+    //    $user->save();
 
-
-       return new userResources($user);
+    //    return new userResources($user);
     }
 
     /**
@@ -52,8 +50,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
-        return new userResources($user);
+        // $user = User::findOrFail($id);
+        // return new userResources($user);
     }
 
     /**
@@ -65,7 +63,15 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // $user = User::findOrFail($id);
         
+        // if($request->input('role') === '0') {
+        //     return response()->json(['status' => 'Unauthorized Role!']);
+        // }
+        // $user->role = $request->input('role');
+        // $user->save();
+        // return new UserResources($user);
+
     }
 
     /**
@@ -76,6 +82,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
     }
 }

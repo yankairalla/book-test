@@ -19,7 +19,7 @@ class hasRole
         $user = auth()->payload();
         
 
-        if($user('role') === 0) {
+        if($user('role') !== 0) {
            return response()->json(['status'=> "É admin"]);
         } else {
           return response()->json(['status'=>'Não é admin']);
