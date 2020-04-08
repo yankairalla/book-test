@@ -38,8 +38,14 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
     
+    
+    public function books() {
+        return $this->hasMany(\App\Book::class);
+    }
+
+
+
     // Rest omitted for brevity
 
     /**
