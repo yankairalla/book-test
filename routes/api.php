@@ -17,3 +17,18 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('auth/login', 'AuthController@login');
+
+Route::group(['middleware' => ['apiJwt']], function () {
+    Route::get('user', 'UserController@index');
+
+    Route::group(['middleware' => ['apiHasRole']], function () {
+        Route::post('user', 'UserController@store');
+    });
+});
+
+
+Route::post('user/{id}', 'UserController@show');
+
+
