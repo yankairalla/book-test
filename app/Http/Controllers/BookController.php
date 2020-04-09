@@ -17,7 +17,7 @@ class BookController extends Controller
     {
         $books = Book::all();
 
-        return response()->json($books);
+        return bookResource::collection($books);
     }
 
     /**
@@ -28,7 +28,21 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $user = auth()->payload();
+        $validatedData = $request->validate([
+            'title' => 'required', 
+            'author' => 'required'
+            ]);
+
+            if($validatedData) {
+                Book::insert([
+                    'title' =>$request->title,
+                    'author'=>$request->author, 
+                    'user_id' => $user('id')
+                    ]);
+                return response()->json(['message'=> 'Book Created!']);
+            }
+
     }
 
     /**
@@ -41,9 +55,8 @@ class BookController extends Controller
     {
         try {
             $book = Book::findOrFail($id);
-            
         } catch (\Exception $e) {
-            return response()->json(['message'=>'Book not found']);
+            return response()->json(['message' => 'Book not found']);
         }
 
         return new bookResource($book);
@@ -58,7 +71,23 @@ class BookController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $user = auth()->payload();
+            $book = Book::findOrFail($id);
+
+            if($book->user->id === $user('id') || $user('role') <= 1 ) {
+                $bookData = $request->all();
+                $book->update($bookData);
+            }else {
+                return response()->json(['message'=> 'Update Unauthorized']);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Book not found']);
+        }
+
+        // return response()->json(['book-user-id' => $book->user->id, 'id'=>$user('id'), 'role' => '' ]);
+        return new bookResource($book);
     }
 
     /**
@@ -69,6 +98,21 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $user = auth()->payload();
+            $book = Book::findOrFail($id);
+
+            if($book->user->id === $user('id') || $user('role') <= 1 ) {
+                $book->delete();
+            }else {
+                return response()->json(['message'=> 'Delete Unauthorized']);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Book not found']);
+        }
+
+        // return response()->json(['book-user-id' => $book->user->id, 'id'=>$user('id'), 'role' => '' ]);
+        return new bookResource($book);
     }
 }

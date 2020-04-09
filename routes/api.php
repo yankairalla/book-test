@@ -26,7 +26,14 @@ Route::get('user/{id}', 'UserController@show');
 // routes with authentication
 Route::group(['middleware' => ['apiJwt']], function () {
     Route::post('logout', 'AuthController@logout');
-
+    
+    Route::get('book', 'BookController@index');
+    Route::get('book/{id}', 'BookController@show');
+    Route::post('book', 'BookController@store');
+    Route::put('book/{id}', 'BookController@update');
+    Route::delete('book/{id}', 'BookController@destroy');
+    
+    
     Route::group(['middleware' => ['apiHasRole']], function () {
         Route::post('user', 'UserController@store');
         Route::put('user/{id}', 'UserController@update');
@@ -34,7 +41,7 @@ Route::group(['middleware' => ['apiJwt']], function () {
     });
 });
 
-Route::get('book', 'BookController@index');
-Route::get('book/{id}', 'BookController@show');
+
+
 
 
