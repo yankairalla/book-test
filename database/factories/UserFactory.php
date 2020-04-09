@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Hash;
 | model instances for testing / seeding your application's database.
 |
 */
-
 $factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
@@ -27,3 +26,13 @@ $factory->define(User::class, function (Faker $faker) {
         'remember_token' => Str::random(10)
     ];
 });
+
+
+$factory->state(User::class, 'admin', [
+    'name' => 'admin',
+    'email'=> 'test@test.com',
+    'email_verified_at' => now(),
+    'role'=> 0,
+    'password' => Hash::make('123456'), // password
+    'remember_token' => Str::random(10)
+]);
