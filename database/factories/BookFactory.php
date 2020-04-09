@@ -9,6 +9,7 @@ $factory->define(Book::class, function (Faker $faker) {
     return [
         'title' => $faker->sentence,
         'author' => $faker->name,
-        'user_id' => factory(App\User::class)
+        'user_id' => factory(App\User::class),
+        'category_id' => factory(App\Category::class)
     ];
 });
