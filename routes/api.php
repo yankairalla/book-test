@@ -44,11 +44,12 @@ Route::group(['middleware' => ['apiJwt']], function () {
         Route::put('user/{id}', 'UserController@update');
         Route::delete('user/{id}', 'UserController@destroy');
 
-        Route::put('category/{id}', 'CategoryController@update');
+        //category routes
+        Route::post('category', 'CategoryController@store');
         Route::delete('category/{id}', 'CategoryController@destroy');
+        Route::put('category/{id}', 'CategoryController@update');
     });
 });
-Route::post('category', 'CategoryController@store');
 
 
 

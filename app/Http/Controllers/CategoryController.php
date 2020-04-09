@@ -16,7 +16,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+
+        return categoryResource::collection($categories);
     }
 
     /**
@@ -60,7 +62,15 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $category = Category::findOrFail($id);
+            $category->name = $request->input('name');
+            $category->save();
+        } catch(\Exception $e) {
+            return response()->json(['message' => 'Category not updated']);
+        }
+
+        return new categoryResource($category);
     }
 
     /**
