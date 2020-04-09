@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use \App\Category;
+use \App\Http\Resources\Book as bookResource;
+use \App\Http\Resources\Category as categoryResource;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -25,7 +27,15 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $category = new Category;
+            $category->name = $request->input('name');
+            $category->save();
+        } catch(\Exception $e) {
+            return response()->json(['message' => 'Category not created']);
+        }
+
+        return new categoryResource($category);
     }
 
     /**
@@ -38,7 +48,7 @@ class CategoryController extends Controller
     {
         $books = Category::findOrFail($id)->books;
 
-        return response()->json($books);
+        return bookResource::collection($books);
     }
 
     /**
@@ -61,6 +71,13 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $category = Category::findOrFail($id);
+            $category->delete();
+        } catch(\Exception $e) {
+            return response()->json(['message'=> 'Category not found!']);
+        }
+
+        return response()->json(['message'=> 'Category deleted!']);
     }
 }

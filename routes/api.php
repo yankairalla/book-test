@@ -34,17 +34,23 @@ Route::group(['middleware' => ['apiJwt']], function () {
     Route::post('book', 'BookController@store');
     Route::put('book/{id}', 'BookController@update');
     Route::delete('book/{id}', 'BookController@destroy');
+
+    //category routes
+    Route::get('category/{id}', 'CategoryController@show');
     
     //admin routes
     Route::group(['middleware' => ['apiHasRole']], function () {
         Route::post('user', 'UserController@store');
         Route::put('user/{id}', 'UserController@update');
         Route::delete('user/{id}', 'UserController@destroy');
+
+        Route::put('category/{id}', 'CategoryController@update');
+        Route::delete('category/{id}', 'CategoryController@destroy');
     });
 });
+Route::post('category', 'CategoryController@store');
 
 
-Route::get('category/{id}', 'CategoryController@show');
 
 
 

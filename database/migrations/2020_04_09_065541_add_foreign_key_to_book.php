@@ -14,8 +14,14 @@ class AddForeignKeyToBook extends Migration
     public function up()
     {
         Schema::table('books', function (Blueprint $table) {
-            $table->foreignId('user_id')->unsigned()->constrained();
-            $table->foreignId('category_id')->unsigned()->constrained();
+            $table->foreignId('user_id')
+                    ->unsigned()
+                    ->constrained()
+                    ->onDelete('cascade');
+            $table->foreignId('category_id')
+                    ->unsigned()
+                    ->constrained()
+                    ->onDelete('cascade');
         });
     }
 
