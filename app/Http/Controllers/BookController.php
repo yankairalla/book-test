@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use Illuminate\Http\Request;
+use App\Http\Resources\Book as bookResource;
 
 class BookController extends Controller
 {
@@ -14,9 +15,9 @@ class BookController extends Controller
      */
     public function index()
     {
-        $book = Book::find();
+        $books = Book::all();
 
-        return response()->json($book);
+        return response()->json($books);
     }
 
     /**
@@ -27,7 +28,7 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -38,7 +39,14 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $book = Book::findOrFail($id);
+            
+        } catch (\Exception $e) {
+            return response()->json(['message'=>'Book not found']);
+        }
+
+        return new bookResource($book);
     }
 
     /**

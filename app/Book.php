@@ -11,6 +11,6 @@ class Book extends Model
     // }
 
     public function user() {
-        $this->belongsTo(\App\User::class);
+        return $this->belongsTo(\App\User::class);
     }
 }
