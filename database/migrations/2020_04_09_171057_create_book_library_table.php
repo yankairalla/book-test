@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLibraryTable extends Migration
+class CreateBookLibraryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateLibraryTable extends Migration
      */
     public function up()
     {
-        Schema::create('libraries', function (Blueprint $table) {
+        Schema::create('book_library', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->foreignId('book_id')->constrained();
+            $table->foreignId('library_id')->constrained();
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class CreateLibraryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('libraries');
+        Schema::dropIfExists('book_library');
     }
 }

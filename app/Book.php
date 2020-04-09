@@ -3,14 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Book extends Model
 {
      protected $fillable = ['title', 'author'];
-
-    // public function category() {
-    //     $this->belongsToMany('\App\Category');
-    // }
 
     public function user() {
         return $this->belongsTo(\App\User::class);
@@ -18,5 +15,9 @@ class Book extends Model
 
     public function category() {
         return $this->belongTo(\App\Category::class);
+    }
+
+    public function library() {
+        return $this->belongsToMany(\App\Library::class);
     }
 }
