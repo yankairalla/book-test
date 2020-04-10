@@ -30,7 +30,8 @@ class LibraryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $library = Library::create(['name' => $request->name]);
+        return response()->json(['message'=>$library]);
     }
 
     /**
@@ -61,10 +62,12 @@ class LibraryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $library = Library::findOrFail($id);
-
-        $updated = $library->update($request->all());
-
+        try {
+            $library = Library::findOrFail($id);
+            $updated = $library->update($request->all());
+        } catch (\Exception $e) {
+            return response()->json(['message' => "Library Updated!", 'data' => $updated]);
+        }
         return response()->json(['updated' => $updated]);
     }
 
@@ -82,7 +85,7 @@ class LibraryController extends Controller
             return response()->json(['message' => 'Book or library not found!']);
         }
 
-        return response()->json(['message'=> 'Book added to Library!']);
+        return response()->json(['message' => 'Book added to Library!']);
     }
 
     /**
@@ -93,19 +96,18 @@ class LibraryController extends Controller
      */
     public function destroy($id)
     {
-        try{
+        try {
             Library::destroy($id);
-            
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => "Library wasn't  deleted or doesn't exist!"]);
         }
 
-        return response()->json(['message'=> 'Library was deleted']);
-
+        return response()->json(['message' => 'Library was deleted']);
     }
 
-    public function deleteBook($id, $bookId) {
-        
+    public function deleteBook($id, $bookId)
+    {
+
         try {
             $library = Library::findOrFail($id);
             Book::findOrFail($bookId);
@@ -116,6 +118,6 @@ class LibraryController extends Controller
             return response()->json(['message' => 'Book or library not found!']);
         }
 
-        return response()->json(['message'=> 'Book remove from Library!']);
+        return response()->json(['message' => 'Book remove from Library!']);
     }
 }

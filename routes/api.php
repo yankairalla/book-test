@@ -37,7 +37,7 @@ Route::group(['middleware' => ['apiJwt']], function () {
 
     //category routes
     Route::get('category/{id}', 'CategoryController@show');
-    
+
     //library routes
     Route::get('library', 'LibraryController@index');
 
@@ -55,6 +55,7 @@ Route::group(['middleware' => ['apiJwt']], function () {
         //library routes
         Route::get('library/{id}', 'LibraryController@show');
         Route::put('library/{id}', 'LibraryController@update');
+        Route::post('library', 'LibraryController@store');
         Route::post('library/{id}/book/{bookId}', 'LibraryController@addBook');
         Route::delete('library/{id}', 'LibraryController@destroy');
         Route::delete('library/{id}/book/{bookId}', 'LibraryController@deleteBook');

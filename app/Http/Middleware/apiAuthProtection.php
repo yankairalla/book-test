@@ -18,9 +18,9 @@ class apiAuthProtection
     public function handle($request, Closure $next)
     {
         try {
-            $user = auth()->userOrFail();
+            auth()->userOrFail();
         } catch (\Tymon\JWTAuth\Exceptions\UserNotDefinedException $e) {
-           return response()->json(['status'=> 'Token is invalid']);
+           return response()->json(['status'=> 'Unauthorized action!'],403);
         }
         
         
