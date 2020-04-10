@@ -31,7 +31,7 @@ class LibraryController extends Controller
     public function store(Request $request)
     {
         $library = Library::create(['name' => $request->name]);
-        return response()->json(['message'=>$library]);
+        return new libraryResource($library);
     }
 
     /**
@@ -64,11 +64,12 @@ class LibraryController extends Controller
     {
         try {
             $library = Library::findOrFail($id);
-            $updated = $library->update($request->all());
+            $library->update($request->all());
+            $library->save();
         } catch (\Exception $e) {
-            return response()->json(['message' => "Library Updated!", 'data' => $updated]);
+            return response()->json(['message' => "Library was not Updated!"]);
         }
-        return response()->json(['updated' => $updated]);
+        return new libraryResource($library);
     }
 
 
@@ -77,15 +78,15 @@ class LibraryController extends Controller
 
         try {
             $library = Library::findOrFail($id);
-            Book::findOrFail($bookId);
-
+            $book = Book::findOrFail($bookId);
             $library->books()->attach($bookId);
             $library->save();
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Book or library not found!']);
+            return response()->json(['message' => 'Book or Library not found!'], 404);
         }
-
         return response()->json(['message' => 'Book added to Library!']);
+
+        // return response()->json(['message' => $test, 'book'=> $book]);
     }
 
     /**
@@ -97,7 +98,8 @@ class LibraryController extends Controller
     public function destroy($id)
     {
         try {
-            Library::destroy($id);
+            $library = Library::findOrFail($id);
+            $library->destroy();
         } catch (\Exception $e) {
             return response()->json(['error' => "Library wasn't  deleted or doesn't exist!"]);
         }

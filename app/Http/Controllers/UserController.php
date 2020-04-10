@@ -39,7 +39,7 @@ class UserController extends Controller
     
             $user->save();           
         } catch(\Exception $e) {
-            return response()->json(['message', 'User was not created!', 400]);
+            return response()->json(['message', 'User was not created!'], 400);
         }
 
 
@@ -93,7 +93,7 @@ class UserController extends Controller
             $user = User::findOrFail($id);
             $user->delete();
         } catch (\Exception $e) {
-            return response()->json(['status' => 'User has been deleted or does not exist', 404]);
+            return response()->json(['status' => 'User has been deleted or does not exist'], 404);
         }
 
         return new UserResources($user);

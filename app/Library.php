@@ -9,6 +9,6 @@ class Library extends Model
     protected $fillable = ['name'];
 
     public function books() {
-        return $this->belongsToMany(\App\Book::class, 'book_library','book_id', 'library_id');
+        return $this->belongsToMany(\App\Book::class);
     }
 }
