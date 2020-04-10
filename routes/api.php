@@ -18,7 +18,7 @@ Route::post('auth/login', 'AuthController@login');
 
 // routes with authentication
 Route::group(['middleware' => ['apiJwt']], function () {
-    Route::post('logout', 'AuthController@logout');
+    Route::post('auth/logout', 'AuthController@logout');
     Route::get('user', 'UserController@index');
     Route::get('user/{id}', 'UserController@show');
 
@@ -30,6 +30,7 @@ Route::group(['middleware' => ['apiJwt']], function () {
     Route::delete('book/{id}', 'BookController@destroy');
 
     //category routes
+    Route::get('category', 'CategoryController@index');
     Route::get('category/{id}', 'CategoryController@show');
 
     //library routes

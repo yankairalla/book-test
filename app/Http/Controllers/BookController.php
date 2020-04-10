@@ -30,19 +30,23 @@ class BookController extends Controller
     {
         $user = auth()->payload();
         $validatedData = $request->validate([
-            'title' => 'required', 
-            'author' => 'required'
+            'title' => 'required',
+            'author' => 'required',
+            'category' => 'required'
+        ]);
+
+        if ($validatedData) {
+            Book::insert([
+                'title' => $request->title,
+                'author' => $request->author,
+                'user_id' => $user('id'),
+                'category_id' => $request->category
             ]);
 
-            if($validatedData) {
-                Book::insert([
-                    'title' =>$request->title,
-                    'author'=>$request->author, 
-                    'user_id' => $user('id')
-                    ]);
-                return response()->json(['message'=> 'Book Created!'], 201);
-            }
-
+            $book = Book::all()->last();
+            return new bookResource($book);
+        }
+        return response()->json(['message' => 'Inputs are invalid!'], 400);
     }
 
     /**
@@ -75,13 +79,12 @@ class BookController extends Controller
             $user = auth()->payload();
             $book = Book::findOrFail($id);
 
-            if($book->user->id === $user('id') || $user('role') <= 1 ) {
+            if ($book->user->id === $user('id') || $user('role') <= 1) {
                 $bookData = $request->all();
                 $book->update($bookData);
-            }else {
-                return response()->json(['message'=> 'Update Unauthorized'], 403);
+            } else {
+                return response()->json(['message' => 'Update Unauthorized'], 403);
             }
-
         } catch (\Exception $e) {
             return response()->json(['message' => 'Book not found'], 404);
         }
@@ -100,12 +103,11 @@ class BookController extends Controller
             $user = auth()->payload();
             $book = Book::findOrFail($id);
 
-            if($book->user->id === $user('id') || $user('role') <= 1 ) {
+            if ($book->user->id === $user('id') || $user('role') <= 1) {
                 $book->delete();
-            }else {
-                return response()->json(['message'=> 'Delete Unauthorized']);
+            } else {
+                return response()->json(['message' => 'Delete Unauthorized']);
             }
-
         } catch (\Exception $e) {
             return response()->json(['message' => 'Book not found']);
         }

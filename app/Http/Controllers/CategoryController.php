@@ -37,7 +37,7 @@ class CategoryController extends Controller
             return response()->json(['message' => 'Category not created'], 400);
         }
 
-        return new categoryResource($category);
+        return response()->json(['data'=>$category]);
     }
 
     /**
