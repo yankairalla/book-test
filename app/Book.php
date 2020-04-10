@@ -17,7 +17,7 @@ class Book extends Model
         return $this->belongTo(\App\Category::class);
     }
 
-    public function library() {
-        return $this->belongsToMany(\App\Library::class);
+    public function libraries() {
+        return $this->belongsToMany(\App\Library::class, 'book_library','book_id', 'library_id');
     }
 }

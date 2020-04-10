@@ -7,6 +7,12 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Category::class, function (Faker $faker) {
     return [
-        'name'=> $faker->word()
+        'name' => $faker->randomElement([
+            'Terror', 
+            'Romance', 
+            'Policial', 
+            'Auto-Ajuda', 
+            'Ficção Cientifica'
+        ])
     ];
 });

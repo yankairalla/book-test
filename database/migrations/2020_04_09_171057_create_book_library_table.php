@@ -15,8 +15,8 @@ class CreateBookLibraryTable extends Migration
     {
         Schema::create('book_library', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('book_id')->constrained();
-            $table->foreignId('library_id')->constrained();
+            $table->foreignId('book_id')->constrained()->onDelete('cascade');
+            $table->foreignId('library_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

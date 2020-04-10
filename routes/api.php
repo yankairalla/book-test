@@ -26,7 +26,7 @@ Route::get('user/{id}', 'UserController@show');
 // routes with authentication
 Route::group(['middleware' => ['apiJwt']], function () {
     Route::post('logout', 'AuthController@logout');
-    
+
 
     //book routes
     Route::get('book', 'BookController@index');
@@ -38,6 +38,9 @@ Route::group(['middleware' => ['apiJwt']], function () {
     //category routes
     Route::get('category/{id}', 'CategoryController@show');
     
+    //library routes
+    Route::get('library', 'LibraryController@index');
+
     //admin routes
     Route::group(['middleware' => ['apiHasRole']], function () {
         Route::post('user', 'UserController@store');
@@ -48,10 +51,12 @@ Route::group(['middleware' => ['apiJwt']], function () {
         Route::post('category', 'CategoryController@store');
         Route::delete('category/{id}', 'CategoryController@destroy');
         Route::put('category/{id}', 'CategoryController@update');
+
+        //library routes
+        Route::get('library/{id}', 'LibraryController@show');
+        Route::put('library/{id}', 'LibraryController@update');
+        Route::post('library/{id}/book/{bookId}', 'LibraryController@addBook');
+        Route::delete('library/{id}', 'LibraryController@destroy');
+        Route::delete('library/{id}/book/{bookId}', 'LibraryController@deleteBook');
     });
 });
-
-
-
-
-
