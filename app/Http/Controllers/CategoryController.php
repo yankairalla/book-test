@@ -33,8 +33,8 @@ class CategoryController extends Controller
             $category = new Category;
             $category->name = $request->input('name');
             $category->save();
-        } catch(\Exception $e) {
-            return response()->json(['message' => 'Category not created']);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Category not created'], 400);
         }
 
         return new categoryResource($category);
@@ -48,8 +48,11 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $books = Category::findOrFail($id)->books;
-
+        try {
+            $books = Category::findOrFail($id)->books;
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Category not found!'], 400);
+        }
         return bookResource::collection($books);
     }
 
@@ -66,7 +69,7 @@ class CategoryController extends Controller
             $category = Category::findOrFail($id);
             $category->name = $request->input('name');
             $category->save();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['message' => 'Category not updated']);
         }
 
@@ -84,10 +87,10 @@ class CategoryController extends Controller
         try {
             $category = Category::findOrFail($id);
             $category->delete();
-        } catch(\Exception $e) {
-            return response()->json(['message'=> 'Category not found!']);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Category not found!'], 404);
         }
 
-        return response()->json(['message'=> 'Category deleted!']);
+        return response()->json(['message' => 'Category deleted!']);
     }
 }

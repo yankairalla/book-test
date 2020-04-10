@@ -40,7 +40,7 @@ class BookController extends Controller
                     'author'=>$request->author, 
                     'user_id' => $user('id')
                     ]);
-                return response()->json(['message'=> 'Book Created!']);
+                return response()->json(['message'=> 'Book Created!'], 201);
             }
 
     }
@@ -56,7 +56,7 @@ class BookController extends Controller
         try {
             $book = Book::findOrFail($id);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Book not found']);
+            return response()->json(['message' => 'Book not found'], 404);
         }
 
         return new bookResource($book);
@@ -79,14 +79,12 @@ class BookController extends Controller
                 $bookData = $request->all();
                 $book->update($bookData);
             }else {
-                return response()->json(['message'=> 'Update Unauthorized']);
+                return response()->json(['message'=> 'Update Unauthorized'], 403);
             }
 
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Book not found']);
+            return response()->json(['message' => 'Book not found'], 404);
         }
-
-        // return response()->json(['book-user-id' => $book->user->id, 'id'=>$user('id'), 'role' => '' ]);
         return new bookResource($book);
     }
 
@@ -112,7 +110,6 @@ class BookController extends Controller
             return response()->json(['message' => 'Book not found']);
         }
 
-        // return response()->json(['book-user-id' => $book->user->id, 'id'=>$user('id'), 'role' => '' ]);
         return new bookResource($book);
     }
 }

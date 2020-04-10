@@ -27,7 +27,6 @@ Route::get('user/{id}', 'UserController@show');
 Route::group(['middleware' => ['apiJwt']], function () {
     Route::post('logout', 'AuthController@logout');
 
-
     //book routes
     Route::get('book', 'BookController@index');
     Route::get('book/{id}', 'BookController@show');
